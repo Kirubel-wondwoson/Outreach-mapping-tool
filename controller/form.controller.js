@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken')
 const Form = require('../model/form.model')
 
 const formatDate = (date) => {
@@ -28,9 +27,10 @@ exports.CreateNewForm = async (req, res) => {
       return res.status(400).send("The date of the event cannot be a future date. Please ensure the date is in the past or present.")
     }
 
+    const locationFormatted = JSON.parse(req.body.location);
     const savedForm = new Form({
       name,
-      location,
+      location: locationFormatted,
       evangelismMethod,
       numOfPeopleReached,
       numOfPeopleSaved,

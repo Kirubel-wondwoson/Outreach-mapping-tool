@@ -1,0 +1,30 @@
+POST http://localhost:5000/user/signup
+Content-Type: application/json
+
+{
+  "username":"user1",
+  "email":"user1@gmail.com",
+  "password":"user1password"
+}
+
+###
+
+POST http://localhost:5000/user/login 
+Content-Type: application/json
+
+{
+  "email":"user1@gmail.com",
+  "password":"user1password"
+}
+
+###
+PATCH http://localhost:5000/user/changepassword
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3Mjk5NDE1OTF9.RwfzaALS_GBZdVkl7MupEft-LkCXd2S62uFMDxASBP4
+Content-Type: application/json
+
+{
+  "email":"user1@gmail.com",
+  "currentPassword":"user1passwordUpdated",
+  "newPassword":"user1password"
+}
+
