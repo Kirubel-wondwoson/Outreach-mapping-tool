@@ -49,7 +49,7 @@ const FormSchema = mongoose.Schema({
     type: String,
     required: true 
   },
-  file: {
+  files: {
     type: [String] 
   }
 }, {timestamps: true})
