@@ -2,7 +2,6 @@ POST http://localhost:5000/form/createNewForm
 Content-Type: application/json
 
 {
-  "name":"someone",
   "location": {
     "type":"Point",
     "coordinates":[38.74, 9.03]

@@ -1,15 +1,24 @@
 const mongoose = require('mongoose')
 
 const FormSchema = mongoose.Schema({
+  name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   location: {
-    type: {
-      type: String,
-      enum: ['Point'],
+    type:{
+      type:String,
+      enum:['Point','Polygon','Circle'],
       required: true
     },
     coordinates: {
-      type: [Number],
+      type: [[Number]],
       required: true
+    },
+    radius: {
+      type: Number,
+      required: function() {return this.type === 'Circle'}
     }
   },
   evangelismMethod:{
@@ -33,10 +42,6 @@ const FormSchema = mongoose.Schema({
     type: String,
     enum: ['Pending', 'Active', 'InActive'],
     default: 'Active'
-  },
-  area: {
-    type: Number,
-    required: true
   },
   date: {
     type: Date,

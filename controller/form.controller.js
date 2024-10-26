@@ -10,13 +10,13 @@ const formatDate = (date) => {
 
 exports.CreateNewForm = async (req, res) => {
   try {
-    const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, area, date, description} = req.body
+    const {name, location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, date, description} = req.body
 
     const dateEdit = new Date(date)
     if (isNaN(dateEdit.getTime())) {
       return res.status(400).send("Invalid Date")
-    }
-
+    } 
+   
     // if (numOfPeopleRepent > numOfPeopleReached || numOfPeopleSaved > numOfPeopleReached) {
     //   return res.status(400).send("The number of people saved or repented cannot be greater than the number of people reached.")
     // }
@@ -29,16 +29,16 @@ exports.CreateNewForm = async (req, res) => {
 
     const locationFormatted = JSON.parse(req.body.location);
     const savedForm = new Form({
+      name,
       location: locationFormatted,
       evangelismMethod,
-      numOfPeopleReached,
-      numOfPeopleSaved,
+      numOfPeopleReached, 
+      numOfPeopleSaved,  
       numOfPeopleRepent,
-      area,
       date: dateEdit,
-      description,
+      description, 
       file: req.file ? req.file.path : null
-    })
+    }) 
     await savedForm.save()
     res.status(201).json(savedForm)
   } catch (error) {
@@ -87,7 +87,7 @@ exports.UpdateIndividual = async (req, res) => {
     if (!form) {
       return res.status(404).send("Form not found")
     }
-    const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, status, area, date, description } = req.body
+    const {name, location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, status, date, description } = req.body
     
     const dateEdit = new Date(date)
     if (isNaN(dateEdit.getTime())) {
@@ -106,13 +106,13 @@ exports.UpdateIndividual = async (req, res) => {
     const updatedForm = await Form.findByIdAndUpdate(
       formId,
       {
+        name,
         location,
         evangelismMethod,
         numOfPeopleReached,
         numOfPeopleSaved,
         numOfPeopleRepent,
         status,
-        area,
         date: dateEdit,
         description,
         file: req.file ? req.file.path : null
