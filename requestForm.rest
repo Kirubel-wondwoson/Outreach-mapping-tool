@@ -11,11 +11,9 @@ Content-Type: application/json
   "numOfPeopleReached": 20,
   "numOfPeopleSaved": 10,
   "numOfPeopleRepent": 2,
-  "status":"Active",
   "area": 20,
   "date":"2024-09-20",
   "description": "This is the description",
-  "file": ''
 }
 
 ###
@@ -23,7 +21,9 @@ Content-Type: application/json
 GET http://localhost:5000/form/getReachedPeoples
 
 ###
-GET http://localhost:5000/form/getIndividual/671cbbd05ae98ef77ac87058
+GET https://outreach-mapping-tool-1.onrender.com/form/getReachedPeoples
+###
+GET http://localhost:5000/form/getIndividual/671cf216cf561d3d89c573ec
 
 ###
 PUT  http://localhost:5000/form/updateIndividual/671ca1c1f54a6e94e1ab6ce6

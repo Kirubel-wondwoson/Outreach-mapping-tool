@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 const FormSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: function() {return this.evangelismMethod === 'oneToOneOutreach'}
-  },
   location: {
     type: {
       type: String,
@@ -36,8 +32,7 @@ const FormSchema = mongoose.Schema({
   status: {
     type: String,
     enum: ['Pending', 'Active', 'InActive'],
-    default: 'Active',
-    required: true 
+    default: 'Active'
   },
   area: {
     type: Number,

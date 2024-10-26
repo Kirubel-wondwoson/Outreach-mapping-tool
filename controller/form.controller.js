@@ -10,16 +10,16 @@ const formatDate = (date) => {
 
 exports.CreateNewForm = async (req, res) => {
   try {
-    const { name, location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, status, area, date, description} = req.body
+    const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, area, date, description} = req.body
 
     const dateEdit = new Date(date)
     if (isNaN(dateEdit.getTime())) {
       return res.status(400).send("Invalid Date")
     }
 
-    if (numOfPeopleRepent > numOfPeopleReached || numOfPeopleSaved > numOfPeopleReached) {
-      return res.status(400).send("The number of people saved or repented cannot be greater than the number of people reached.")
-    }
+    // if (numOfPeopleRepent > numOfPeopleReached || numOfPeopleSaved > numOfPeopleReached) {
+    //   return res.status(400).send("The number of people saved or repented cannot be greater than the number of people reached.")
+    // }
 
     // day check
     const currentDate = new Date()
@@ -29,13 +29,11 @@ exports.CreateNewForm = async (req, res) => {
 
     const locationFormatted = JSON.parse(req.body.location);
     const savedForm = new Form({
-      name,
       location: locationFormatted,
       evangelismMethod,
       numOfPeopleReached,
       numOfPeopleSaved,
       numOfPeopleRepent,
-      status,
       area,
       date: dateEdit,
       description,
@@ -51,11 +49,11 @@ exports.CreateNewForm = async (req, res) => {
 
 exports.GetReachedPeople = async (req, res) => {
   try {
-    const reachedPeoples = await Form.find()
+    const reachedPeoples = await Form.find({status: "Active"})
 
     const formattedReachedPeoples = reachedPeoples.map((form) => ({
       ...form.toObject(),
-      date: formatDate(form.date)
+      date: formatDate(form.date) 
     }))
 
     res.status(200).send(formattedReachedPeoples)
@@ -89,13 +87,12 @@ exports.UpdateIndividual = async (req, res) => {
     if (!form) {
       return res.status(404).send("Form not found")
     }
-    const { name, location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, status, area, date, description } = req.body
+    const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, status, area, date, description } = req.body
     
     const dateEdit = new Date(date)
     if (isNaN(dateEdit.getTime())) {
       return res.status(400).send("Invalid Date")
     }
-
     if (numOfPeopleRepent > numOfPeopleReached || numOfPeopleSaved > numOfPeopleReached) {
       return res.status(400).send("The number of people saved or repented cannot be greater than the number of people reached.")
     }
@@ -109,7 +106,6 @@ exports.UpdateIndividual = async (req, res) => {
     const updatedForm = await Form.findByIdAndUpdate(
       formId,
       {
-        name,
         location,
         evangelismMethod,
         numOfPeopleReached,
@@ -141,10 +137,10 @@ exports.DeleteForm = async (req, res) => {
   }
 }
 
-exports.handleUpload = async (req, res) => {
-  try {
-    res.json(req.file)
-  } catch (error) {
-    throw error 
-  }
-}
+// exports.handleUpload = async (req, res) => {
+//   try {
+//     res.json(req.file)
+//   } catch (error) {
+//     throw error 
+//   }
+// }
