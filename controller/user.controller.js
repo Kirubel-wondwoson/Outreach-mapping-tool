@@ -35,9 +35,17 @@ exports.LogIn = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password)
     if (isMatch) {
-      const userInfo = { role: user.role}
+      const userInfo = {
+        id: user._id,
+        role: user.role
+      }
       const accessToken = jwt.sign(userInfo, process.env.TOKEN_SECRET)
-      return res.json({ message: `Welcome, ${user.username}!`, accessToken, role: user.role });
+      return res.json({ 
+        message: `Welcome, ${user.username}!`, 
+        accessToken, 
+        role: user.role,
+        userId: user._id 
+      });
     } else {
       return res.status(401).send("Incorrect email or password. Please try again.")
     }
@@ -66,5 +74,5 @@ exports.ChangePassword = async (req, res) => {
     res.status(200).send("Password changed successfully.");
   } catch (error) {
     throw error
-  }
+  } 
 }

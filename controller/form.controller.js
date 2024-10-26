@@ -1,4 +1,5 @@
-const Form = require('../model/form.model')
+const Form = require('../model/form.model');
+const User = require('../model/user.model');
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {
@@ -10,7 +11,8 @@ const formatDate = (date) => {
 
 exports.CreateNewForm = async (req, res) => {
   try {
-    const {name, location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, date, description} = req.body
+    const user = await User.findById(req.user.id)
+    const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, date, description} = req.body
 
     const dateEdit = new Date(date)
     if (isNaN(dateEdit.getTime())) {
@@ -28,8 +30,9 @@ exports.CreateNewForm = async (req, res) => {
     }
 
     const locationFormatted = JSON.parse(req.body.location);
+    
     const savedForm = new Form({
-      name,
+      name: user.username,
       location: locationFormatted,
       evangelismMethod,
       numOfPeopleReached, 
@@ -51,12 +54,19 @@ exports.GetReachedPeople = async (req, res) => {
   try {
     const reachedPeoples = await Form.find({status: "Active"})
 
-    const formattedReachedPeoples = reachedPeoples.map((form) => ({
+    const formattedReachedPeoples = reachedPeoples.map(form => ({
       ...form.toObject(),
-      date: formatDate(form.date) 
-    }))
+      location: {
+        ...form.location,
+        coordinates: form.location.coordinates.map(coordArray => ({
+          lat: coordArray[0],
+          lng: coordArray[1] 
+        }))
+      }
+    }));
 
-    res.status(200).send(formattedReachedPeoples)
+
+    res.status(200).send(formattedReachedPeoples) 
   } catch (error) {
     throw error
   }
@@ -70,10 +80,17 @@ exports.GetIndividual = async (req, res) => {
     if (!form) {
       return res.status(404).send("Form not found")
     }
+
     const formattedForm = {
       ...form.toObject(),
-      date: formatDate(form.date)
-    }
+      location: {
+        ...form.location,
+        coordinates: form.location.coordinates.map(coordArray => ({
+          lat: coordArray[0], 
+          lng: coordArray[1]  
+        }))
+      }
+    };
     res.status(200).send(formattedForm)
   } catch (error) {
     throw error

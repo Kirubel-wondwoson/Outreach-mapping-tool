@@ -1,4 +1,5 @@
 POST http://localhost:5000/form/createNewForm
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWNjYjhmMzM1ZTFlODk2YjA0ZWYxZiIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcyOTk3MzAxOH0.s2U2tgou3Hfib0_Hq1glb7vv9x6k5m5OyD-MsMeoARQ
 Content-Type: application/json
 
 {
@@ -22,7 +23,7 @@ GET http://localhost:5000/form/getReachedPeoples
 ###
 GET https://outreach-mapping-tool-1.onrender.com/form/getReachedPeoples
 ###
-GET http://localhost:5000/form/getIndividual/671cf216cf561d3d89c573ec
+GET http://localhost:5000/form/getIndividual/671d45150f9aca3c551e4845
 
 ###
 PUT  http://localhost:5000/form/updateIndividual/671ca1c1f54a6e94e1ab6ce6
