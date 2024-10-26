@@ -1,0 +1,47 @@
+POST http://localhost:5000/form/createNewForm
+Content-Type: application/json
+
+{
+  "name":"someone",
+  "location": {
+    "type":"Point",
+    "coordinates":[38.74, 9.03]
+  },
+  "evangelismMethod": "oneToOneOutreach",
+  "numOfPeopleReached": 20,
+  "numOfPeopleSaved": 10,
+  "numOfPeopleRepent": 2,
+  "status":"Active",
+  "area": 20,
+  "date":"2024-09-20",
+  "description": "This is the description"
+}
+
+###
+
+GET http://localhost:5000/form/getReachedPeoples
+
+###
+GET http://localhost:5000/form/getIndividual/671c2804bd06330f70b04046
+
+###
+PUT  http://localhost:5000/form/updateIndividual/671ca1c1f54a6e94e1ab6ce6
+Content-Type: application/json
+
+{
+  "name":"someone",
+  "location": {
+    "type":"Point",
+    "coordinates":[38.74, 9.03]
+  },
+  "evangelismMethod": "oneToOneOutreach",
+  "numOfPeopleReached": 20,
+  "numOfPeopleSaved": 10,
+  "numOfPeopleRepent": 2,
+  "status":"InActive",
+  "area": 20,
+  "date":"2024-09-20",
+  "description": "This is the description"
+}
+###
+DELETE http://localhost:5000/form/deleteForm/671ca1c1f54a6e94e1ab6ce6
