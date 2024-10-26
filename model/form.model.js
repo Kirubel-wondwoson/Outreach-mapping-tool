@@ -49,8 +49,8 @@ const FormSchema = mongoose.Schema({
     type: String,
     required: true 
   },
-  files: {
-    type: [String] 
+  file: {
+    type: String
   }
 }, {timestamps: true})
 

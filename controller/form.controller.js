@@ -56,16 +56,10 @@ exports.GetReachedPeople = async (req, res) => {
 
     const formattedReachedPeoples = reachedPeoples.map(form => ({
       ...form.toObject(),
-      location: {
-        ...form.location,
-        coordinates: form.location.coordinates.map(coordArray => ({
-          lat: coordArray[0],
-          lng: coordArray[1] 
-        }))
-      }
+      file: form.file.replace(/\\/g, "/"),
+      date: formatDate(form.date) 
     }));
-
-
+    
     res.status(200).send(formattedReachedPeoples) 
   } catch (error) {
     throw error
@@ -83,13 +77,8 @@ exports.GetIndividual = async (req, res) => {
 
     const formattedForm = {
       ...form.toObject(),
-      location: {
-        ...form.location,
-        coordinates: form.location.coordinates.map(coordArray => ({
-          lat: coordArray[0], 
-          lng: coordArray[1]  
-        }))
-      }
+      file: form.file.replace(/\\/g, "/"),
+      date: formatDate(form.date)
     };
     res.status(200).send(formattedForm)
   } catch (error) {
