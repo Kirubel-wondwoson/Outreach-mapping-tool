@@ -8,7 +8,7 @@ const FormSchema = mongoose.Schema({
     type: {
       type: String,
       enum: ['Point', 'Polygon', 'Circle'],
-      required: true
+      default: 'Circle',
     },
     coordinates: {
       type: [Number],

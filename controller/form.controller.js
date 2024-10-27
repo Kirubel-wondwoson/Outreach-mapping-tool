@@ -14,41 +14,43 @@ const formatDate = (date) => {
 exports.CreateNewForm = async (req, res) => {
   try {
     // const user = await User.findById(req.user.id)
-    const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, date, description} = req.body
-
-    const dateEdit = new Date(date)
+    const { location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, date, description } = req.body;
+    
+    const dateEdit = new Date(date);
     if (isNaN(dateEdit.getTime())) {
-      return res.status(400).send("Invalid Date")
-    } 
-   
-    // if (numOfPeopleRepent > numOfPeopleReached || numOfPeopleSaved > numOfPeopleReached) {
-    //   return res.status(400).send("The number of people saved or repented cannot be greater than the number of people reached.")
-    // }
-
-    // day check
-    const currentDate = new Date()
-    if (dateEdit > currentDate) {
-      return res.status(400).send("The date of the event cannot be a future date. Please ensure the date is in the past or present.")
+      return res.status(400).send("Invalid Date");
     }
 
-    const locationFormatted = JSON.parse(req.body.location);
-    
+    // Uncomment if you want to enforce this validation
+    // if (numOfPeopleRepent > numOfPeopleReached || numOfPeopleSaved > numOfPeopleReached) {
+    //   return res.status(400).send("The number of people saved or repented cannot be greater than the number of people reached.");
+    // }
+
+    // Day check
+    const currentDate = new Date();
+    if (dateEdit > currentDate) {
+      return res.status(400).send("The date of the event cannot be a future date. Please ensure the date is in the past or present.");
+    }
+
+    // Check if location is already an object
+    const locationFormatted = typeof location === 'string' ? JSON.parse(location) : location;
+
     const savedForm = new Form({
       // name: user.username,
       location: locationFormatted,
       evangelismMethod,
-      numOfPeopleReached, 
-      numOfPeopleSaved,  
+      numOfPeopleReached,
+      numOfPeopleSaved,
       numOfPeopleRepent,
       date: dateEdit,
-      description, 
+      description,
       file: req.file ? req.file.path : null
-    }) 
-    await savedForm.save()
-    res.status(201).json(savedForm)
+    });
+    await savedForm.save();
+    res.status(201).json(savedForm);
   } catch (error) {
-    console.error(error)
-    throw error
+    console.error(error);
+    res.status(500).send("An error occurred while creating the form.");
   }
 }
 
