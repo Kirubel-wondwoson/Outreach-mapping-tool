@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 
-router.post('/createNewForm', authenticateToken, upload.single('file'), CreateNewForm)
+router.post('/createNewForm', upload.single('file'), CreateNewForm)
 router.get('/getReachedPeoples', GetReachedPeople)
 router.get('/getIndividual/:id', GetIndividual)
 router.put('/updateIndividual/:id', UpdateIndividual)

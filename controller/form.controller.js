@@ -13,7 +13,7 @@ const formatDate = (date) => {
 
 exports.CreateNewForm = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id)
+    // const user = await User.findById(req.user.id)
     const {location, evangelismMethod, numOfPeopleReached, numOfPeopleSaved, numOfPeopleRepent, date, description} = req.body
 
     const dateEdit = new Date(date)
@@ -34,7 +34,7 @@ exports.CreateNewForm = async (req, res) => {
     const locationFormatted = JSON.parse(req.body.location);
     
     const savedForm = new Form({
-      name: user.username,
+      // name: user.username,
       location: locationFormatted,
       evangelismMethod,
       numOfPeopleReached, 
