@@ -5,14 +5,18 @@ const FormSchema = mongoose.Schema({
     type: String,
   },
   location: {
-    type:{
-      type:String,
-      enum:['Point'],
+    type: {
+      type: String,
+      enum: ['Point', 'Polygon', 'Circle'],
       required: true
     },
-    coordinates: { 
+    coordinates: {
       type: [Number],
       required: true
+    },
+    radius: {
+      type: Number,
+      required: function() {return this.type === 'Circle'}
     }
   },
   evangelismMethod:{
