@@ -1,5 +1,7 @@
 const Form = require('../model/form.model');
 const User = require('../model/user.model');
+const fs = require('fs')
+const path = require('path')
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {
@@ -54,12 +56,15 @@ exports.GetReachedPeople = async (req, res) => {
   try {
     const reachedPeoples = await Form.find({status: "Active"})
 
-    const formattedReachedPeoples = reachedPeoples.map(form => ({
-      ...form.toObject(),
-      file: form.file ? form.file.replace(/\\/g, "/") : null,
-      date: formatDate(form.date) 
+    const formattedReachedPeoples = await Promise.all(reachedPeoples.map(async form => {
+      const filePath = form.file ? form.file.replace(/\\/g, "/") : null;
+      const fileData = filePath ? await fs.promises.readFile(filePath) : null; 
+      return {
+        ...form.toObject(),
+        file: fileData ? `data:${path.extname(filePath).slice(1)};base64,${fileData.toString('base64')}` : null, 
+        date: formatDate(form.date) 
+      };
     }));
-    
     res.status(200).send(formattedReachedPeoples) 
   } catch (error) {
     throw error
