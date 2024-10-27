@@ -56,7 +56,7 @@ exports.GetReachedPeople = async (req, res) => {
 
     const formattedReachedPeoples = reachedPeoples.map(form => ({
       ...form.toObject(),
-      file: form.file.replace(/\\/g, "/"),
+      file: form.file ? form.file.replace(/\\/g, "/") : null,
       date: formatDate(form.date) 
     }));
     
