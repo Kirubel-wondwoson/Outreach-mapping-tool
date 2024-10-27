@@ -9,7 +9,6 @@ const {
   GetReachedPeople,
   GetIndividual,
   UpdateIndividual,
-  DeleteForm,
 } = require('../controller/form.controller')
 
 const storage = multer.diskStorage({
@@ -26,6 +25,5 @@ router.post('/createNewForm', authenticateToken, upload.single('file'), CreateNe
 router.get('/getReachedPeoples', GetReachedPeople)
 router.get('/getIndividual/:id', GetIndividual)
 router.put('/updateIndividual/:id', UpdateIndividual)
-router.delete('/deleteForm/:id', DeleteForm)
 
 module.exports = router

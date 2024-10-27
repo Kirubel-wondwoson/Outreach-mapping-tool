@@ -80,9 +80,12 @@ exports.GetIndividual = async (req, res) => {
       return res.status(404).send("Form not found")
     }
 
+    const filePath = form.file ? form.file.replace(/\\/g, "/") : null;
+    const fileData = filePath ? await fs.promises.readFile(filePath) : null; // Read the file data
+
     const formattedForm = {
       ...form.toObject(),
-      file: form.file.replace(/\\/g, "/"),
+      file: fileData ? `data:${path.extname(filePath).slice(1)};base64,${fileData.toString('base64')}` : null, // Convert to base64
       date: formatDate(form.date)
     };
     res.status(200).send(formattedForm)
@@ -136,22 +139,3 @@ exports.UpdateIndividual = async (req, res) => {
   }
 }
 
-exports.DeleteForm = async (req, res) => {
-  try {
-    const deletedForm = await Form.findByIdAndDelete(req.params.id)
-    if(!deletedForm){
-      return res.status(404).send('From not found')
-    }
-    res.status(200).send('Form deleted Succesfully')
-  } catch (error) {
-    throw error 
-  }
-}
-
-// exports.handleUpload = async (req, res) => {
-//   try {
-//     res.json(req.file)
-//   } catch (error) {
-//     throw error 
-//   }
-// }
